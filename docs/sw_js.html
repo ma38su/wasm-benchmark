@@ -7,7 +7,7 @@
     <title>Reference Javascript</title>
   </head>
   <body>
-    <h1>Sieve by Javascript</h1>
+    <h1>Sieve by Javascript on Service Worker</h1>
     <button id='button'>Sieve</button>
     <ul>
       <li><a href="./js.html">Javascript</a></li>
@@ -18,33 +18,22 @@
 
     <script type="module">
       let input_val = 20000000;
-      function sieve(max_count) {
-        const primes = new Array(max_count + 1);
-        const result = [];
-        for (let i = 2; i <= max_count; ++i) {
-          primes[i] = true;
-        }
+      const worker = new Worker('sw_js.js');
 
-        for (let i = 2; i < max_count; ++i) {
-          if (!primes[i]) continue;
-          result.push(i);
-          
-          for (let j = i; j <= max_count; j += i) {
-              primes[j] = false;
-          }
-        }
-        return result;
-      }
-
-      function task() {
-        const startTime = performance.now();
-        const result = sieve(++input_val);
-        const endTime = performance.now();
+      worker.addEventListener('message', (message) => {
+        const {input, result, t0} = message.data;
         alert(JSON.stringify({
-          max: input_val,
-          time: (endTime - startTime).toFixed(3),
+          max: input,
+          time: (performance.now() - t0).toFixed(3),
           primes: result.length,
         }));
+      });
+
+      function task() {
+        worker.postMessage({
+          input: ++input_val,
+          t0: performance.now()
+        });
       }
       task();
 

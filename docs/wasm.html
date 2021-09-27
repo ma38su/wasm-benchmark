@@ -9,10 +9,15 @@
   <body>
     <h1>Sieve by WASM</h1>
     <button id='button'>Sieve</button>
-    <a href="./js.html">JS</a>
+    <ul>
+      <li><a href="./js.html">Javascript</a></li>
+      <li><a href="./wasm.html">WASM</a></li>
+      <li><a href="./sw_js.html">Javascript on SW</a></li>
+      <li><a href="./sw_wasm.html">WASM on SW</a></li>
+    </ul>
 
     <script type="module">
-      let input_val = 10000000;
+      let input_val = 20000000;
       import init, {sieve} from "./pkg/sieve_wasm.js";
       const startTime0 = performance.now();
       init().then(() => {

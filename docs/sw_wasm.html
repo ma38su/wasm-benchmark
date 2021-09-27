@@ -4,10 +4,10 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Reference Javascript</title>
+    <title>Hello, Wasm!</title>
   </head>
   <body>
-    <h1>Sieve by Javascript</h1>
+    <h1>Sieve by WASM on Service Worker</h1>
     <button id='button'>Sieve</button>
     <ul>
       <li><a href="./js.html">Javascript</a></li>
@@ -18,35 +18,31 @@
 
     <script type="module">
       let input_val = 20000000;
-      function sieve(max_count) {
-        const primes = new Array(max_count + 1);
-        const result = [];
-        for (let i = 2; i <= max_count; ++i) {
-          primes[i] = true;
-        }
-
-        for (let i = 2; i < max_count; ++i) {
-          if (!primes[i]) continue;
-          result.push(i);
-          
-          for (let j = i; j <= max_count; j += i) {
-              primes[j] = false;
-          }
-        }
-        return result;
-      }
+      const worker = new Worker('sw_wasm.js', {
+        type: 'module'
+      });
 
       function task() {
-        const startTime = performance.now();
-        const result = sieve(++input_val);
-        const endTime = performance.now();
+        worker.postMessage({
+          input: ++input_val,
+          t0: performance.now()
+        });
+      }
+
+      worker.addEventListener('message', (message) => {
+        const { type } = message.data;
+        if (type === 'load') {
+          task();
+          return;
+        }
+
+        const {input, result, t0} = message.data;
         alert(JSON.stringify({
-          max: input_val,
-          time: (endTime - startTime).toFixed(3),
+          max: input,
+          time: (performance.now() - t0).toFixed(3),
           primes: result.length,
         }));
-      }
-      task();
+      });
 
       const button = document.getElementById('button');
       button.addEventListener('click', task);

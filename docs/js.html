@@ -9,10 +9,15 @@
   <body>
     <h1>Sieve by Javascript</h1>
     <button id='button'>Sieve</button>
-    <a href="./wasm.html">WASM</a>
+    <ul>
+      <li><a href="./js.html">Javascript</a></li>
+      <li><a href="./wasm.html">WASM</a></li>
+      <li><a href="./sw_js.html">Javascript on SW</a></li>
+      <li><a href="./sw_wasm.html">WASM on SW</a></li>
+    </ul>
 
     <script type="module">
-      let input_val = 10000000;
+      let input_val = 20000000;
       function sieve(max_count) {
         const primes = new Array(max_count + 1);
         const result = [];
