@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reference Javascript</title>
+  </head>
+  <body>
+    <h1>Sieve by Javascript</h1>
+    <button id='button'>Sieve</button>
+
+    <script type="module">
+      let input_val = 10000000;
+      function sieve(max_count) {
+        const primes = new Array(max_count + 1);
+        const result = [];
+        for (let i = 2; i <= max_count; ++i) {
+          primes[i] = true;
+        }
+
+        for (let i = 2; i < max_count; ++i) {
+          if (!primes[i]) continue;
+          result.push(i);
+          
+          for (let j = i; j <= max_count; j += i) {
+              primes[j] = false;
+          }
+        }
+        return result;
+      }
+
+      function task() {
+        const startTime = performance.now();
+        const result = sieve(++input_val);
+        const endTime = performance.now();
+        console.log({
+          max: input_val,
+          time: endTime - startTime,
+          primes: result.length,
+        });
+      }
+      task();
+
+      const button = document.getElementById('button');
+      button.addEventListener('click', task);
+    </script>
+  </body>
+</html>
