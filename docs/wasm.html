@@ -7,8 +7,9 @@
     <title>Hello, Wasm!</title>
   </head>
   <body>
-    <h1>Sieve by Javascript</h1>
+    <h1>Sieve by WASM</h1>
     <button id='button'>Sieve</button>
+    <a href="./js.html">JS</a>
 
     <script type="module">
       let input_val = 10000000;
@@ -21,7 +22,7 @@
           const endTime = performance.now();
           alert(JSON.stringify({
             max: input_val,
-            time: endTime - startTime,
+            time: (endTime - startTime).toFixed(3),
             primes: result.length,
           }));
         }

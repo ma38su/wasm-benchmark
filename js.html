@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ja">
+<html lang="en">
   <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -9,6 +9,7 @@
   <body>
     <h1>Sieve by Javascript</h1>
     <button id='button'>Sieve</button>
+    <a href="./wasm.html">WASM</a>
 
     <script type="module">
       let input_val = 10000000;
@@ -34,11 +35,11 @@
         const startTime = performance.now();
         const result = sieve(++input_val);
         const endTime = performance.now();
-        console.log({
+        alert(JSON.stringify({
           max: input_val,
-          time: endTime - startTime,
+          time: (endTime - startTime).toFixed(3),
           primes: result.length,
-        });
+        }));
       }
       task();
 
