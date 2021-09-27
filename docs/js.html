@@ -34,11 +34,11 @@
         const startTime = performance.now();
         const result = sieve(++input_val);
         const endTime = performance.now();
-        console.log({
+        alert(JSON.stringify({
           max: input_val,
           time: endTime - startTime,
           primes: result.length,
-        });
+        }));
       }
       task();
 
