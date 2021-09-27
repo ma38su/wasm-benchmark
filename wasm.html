@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hello, Wasm!</title>
+  </head>
+  <body>
+    <h1>Sieve by Javascript</h1>
+    <button id='button'>Sieve</button>
+
+    <script type="module">
+      let input_val = 10000000;
+      import init, {sieve} from "./pkg/sieve_wasm.js";
+      const startTime0 = performance.now();
+      init().then(() => {
+        function task() {
+          const startTime = performance.now();
+          const result = sieve(++input_val);
+          const endTime = performance.now();
+
+          console.log({
+              max: input_val,
+              time: endTime - startTime,
+              primes: result.length,
+          });
+        }
+        task();
+        console.log({init: performance.now() - startTime0});
+
+        const button = document.getElementById('button');
+        button.addEventListener('click', task);
+      });
+    </script>
+  </body>
+</html>
